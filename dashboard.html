@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAM Technologies - Dashboard</title>
+
+<link rel="stylesheet" href="22.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2>SAM Technologies EMS</h2>
+
+    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="add-employee.html"><i class="fas fa-user-plus"></i> Add Employee</a>
+    <a href="employee List.html"><i class="fas fa-users"></i> Employee List</a>
+    <a href="reports.html"><i class="fas fa-chart-pie"></i> Reports</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a>
+    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <h1>Dashboard</h1>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Employees</h3>
+            <h2 id="totalEmployees">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Male Employees</h3>
+            <h2 id="maleEmployees">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Female Employees</h3>
+            <h2 id="femaleEmployees">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Departments</h3>
+            <h2 id="departments">0</h2>
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <!-- 🔍 LIVE SEARCH BOX -->
+    <input type="text" id="dashSearch" placeholder="Search employee..."
+    style="padding:10px;width:250px;">
+
+    <br><br>
+
+    <!-- 📊 SEARCH RESULTS TABLE -->
+    <table border="1" width="100%">
+
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+
+        <tbody id="dashTable"></tbody>
+
+    </table>
+
+</div>
+
+<!-- JS -->
+<script>
+let employees = JSON.parse(localStorage.getItem("employees")) || [];
+
+// UPDATE CARDS
+function updateDashboard() {
+
+    document.getElementById("totalEmployees").innerText = employees.length;
+
+    let male = 0;
+    let female = 0;
+
+    employees.forEach(emp => {
+        if (emp.gender == "Male") male++;
+        else if (emp.gender == "Female") female++;
+    });
+
+    document.getElementById("maleEmployees").innerText = male;
+    document.getElementById("femaleEmployees").innerText = female;
+
+    let departments = [...new Set(employees.map(emp => emp.dept))];
+    document.getElementById("departments").innerText = departments.length;
+}
+
+// LOAD TABLE
+function loadTable(data) {
+
+    let table = document.getElementById("dashTable");
+    table.innerHTML = "";
+
+    data.forEach(emp => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${emp.id}</td>
+            <td>${emp.name}</td>
+            <td>${emp.dept}</td>
+            <td>${emp.email}</td>
+            <td>${emp.phone}</td>
+        </tr>
+        `;
+    });
+}
+
+// LIVE SEARCH
+document.getElementById("dashSearch").addEventListener("input", function () {
+
+    let value = this.value.toLowerCase();
+
+    let filtered = employees.filter(emp =>
+        emp.id.toLowerCase().includes(value) ||
+        emp.name.toLowerCase().includes(value) ||
+        emp.dept.toLowerCase().includes(value) ||
+        emp.email.toLowerCase().includes(value) ||
+        emp.phone.toLowerCase().includes(value)
+    );
+
+    loadTable(filtered);
+});
+
+// INIT
+updateDashboard();
+loadTable(employees);
+</script>
+
+</body>
+</html>

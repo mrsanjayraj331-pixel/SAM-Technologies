@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports Dashboard</title>
+
+<link rel="stylesheet" href="22.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2>SAM Technologies EMS</h2>
+
+    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="add-employee.html"><i class="fas fa-user-plus"></i> Add Employee</a>
+    <a href="Employee List.html"><i class="fas fa-users"></i> Employee List</a>
+    <a href="reports.html"><i class="fas fa-chart-pie"></i> Reports</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a>
+    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <h1>Reports Dashboard</h1>
+
+    <!-- REPORT CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Employees</h3>
+            <h2 id="totalEmp">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Male Employees</h3>
+            <h2 id="maleEmp">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Female Employees</h3>
+            <h2 id="femaleEmp">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Departments</h3>
+            <h2 id="deptEmp">0</h2>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- JS -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function getEmployees() {
+        return JSON.parse(localStorage.getItem("employees")) || [];
+    }
+
+    function loadReports() {
+
+        let employees = getEmployees();
+
+        let male = 0;
+        let female = 0;
+
+        employees.forEach(emp => {
+
+            // SAFE CHECK (avoid errors)
+            if (emp.gender && emp.gender.toLowerCase() === "male") male++;
+            else if (emp.gender && emp.gender.toLowerCase() === "female") female++;
+        });
+
+        let departments = [...new Set(employees.map(emp => emp.dept))];
+
+        document.getElementById("totalEmp").innerText = employees.length;
+        document.getElementById("maleEmp").innerText = male;
+        document.getElementById("femaleEmp").innerText = female;
+        document.getElementById("deptEmp").innerText = departments.length;
+    }
+
+    loadReports();
+
+});
+</script>
+
+</body>
+</html>

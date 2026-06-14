@@ -1,0 +1,73 @@
+#searchInput{
+    width:300px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+/* Buttons */
+.edit-btn{
+    background:green;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+.delete-btn{
+    background:red;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:5px;
+    cursor:pointer;
+}
+@media (max-width: 768px) {
+
+    /* Sidebar becomes top bar */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar a {
+        padding: 10px;
+        margin: 5px;
+        font-size: 14px;
+    }
+
+    /* Main content full width */
+    .main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    /* Table scroll fix */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Search box full width */
+    #searchInput {
+        width: 100%;
+    }
+
+    /* Cards responsive (if used) */
+    .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
